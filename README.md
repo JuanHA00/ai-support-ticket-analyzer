@@ -169,13 +169,59 @@ El endpoint usa:
 - metricas agregadas
 - `app/knowledge_base.md`
 
-Actualmente responde con reglas mock.
+Por defecto responde con reglas mock. Si `AI_PROVIDER=ollama`, usa Ollama para generar la respuesta.
 
 ## Variables de entorno
 
-No se requieren variables de entorno para ejecutar esta version.
+No se requieren variables de entorno para ejecutar la version mock.
 
-No se usa API key externa. El sistema corre en modo mock para que pueda evaluarse localmente sin costos.
+Variables opcionales:
+
+```text
+AI_PROVIDER=mock|ollama
+OLLAMA_URL=http://localhost:11434
+OLLAMA_MODEL=llama3.1
+API_URL=http://127.0.0.1:8000
+```
+
+Por defecto:
+
+```text
+AI_PROVIDER=mock
+```
+
+No se usa API key externa. El sistema puede correr en modo mock para que pueda evaluarse localmente sin costos.
+
+## Usar Ollama opcionalmente
+
+Para usar un LLM local en `/ask`, instala Ollama y descarga un modelo:
+
+```powershell
+ollama pull llama3.1
+```
+
+Verifica que Ollama este corriendo en:
+
+```text
+http://localhost:11434
+```
+
+Luego inicia la API con:
+
+```powershell
+$env:AI_PROVIDER="ollama"
+$env:OLLAMA_MODEL="llama3.1"
+python -m uvicorn app.main:app --reload
+```
+
+Ahora `POST /ask` usara Ollama con:
+
+- pregunta del usuario
+- metricas agregadas
+- muestra de tickets procesados
+- `app/knowledge_base.md`
+
+Si Ollama no responde, el endpoint vuelve al modo mock como fallback.
 
 ## Decisiones tecnicas
 
@@ -204,7 +250,7 @@ La integracion de IA esta encapsulada en:
 - `enrich_with_mock_ai()` en `app/data_processing.py`
 - `answer_question()` en `app/ask.py`
 
-Actualmente ambas usan reglas mock. La arquitectura permite reemplazarlas por un proveedor real como Ollama, OpenAI, Gemini o un modelo LLaMA sin modificar la limpieza, las metricas, los endpoints ni el dashboard.
+Actualmente el enriquecimiento de tickets usa reglas mock. El endpoint `/ask` puede funcionar con reglas mock o con Ollama usando `AI_PROVIDER=ollama`. La arquitectura permite reemplazar estas funciones por otros proveedores como OpenAI, Gemini o un modelo LLaMA sin modificar la limpieza, las metricas, los endpoints ni el dashboard.
 
 Ejemplo de evolucion:
 
