@@ -266,7 +266,7 @@ enrich_with_openai()
 
 - `/ask` usa reglas simples, no un LLM real.
 - El enriquecimiento mock no entiende contexto profundo ni sarcasmo.
-- La metrica de tiempos de resolucion requiere filtrar inconsistencias temporales antes de usarse como KPI final.
+- La metrica de tiempos de resolucion requiere filtrar inconsistencias temporales antes de usarse como KPI final. Adicionalmente con un LLM real se podria hacer preguntas temporales como por ejemplo "¿Cuaantos fueron los tickets generados y sus categorias en junio de 2021? 
 - No hay persistencia en base de datos; los datos se cargan desde CSV.
 - El dashboard depende de que la API este corriendo.
 
