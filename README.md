@@ -99,7 +99,7 @@ Docker es opcional, pero permite levantar API y dashboard con un solo comando.
 
 Requisito: tener Docker Desktop instalado y abierto.
 
-El comando se ejecuta desde PowerShell o la terminal de VS Code, ubicado en la raiz del proyecto:
+El comando se ejecuta desde PowerShell o la terminal de VS Code, ubicado en la raiz del proyecto: ejemplo  cd C:\Users\USUARIO\Desktop\prueba-tecnica-ai-support-ticket-analyzer>
 
 ```powershell
 docker compose up --build
